@@ -1,0 +1,70 @@
+[project]
+name = "gooseloc"
+version = "1.0.0"
+description = "GOOSELoc: a multimodal benchmark for ground-to-aerial localization in unstructured off-road terrain"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Fabian Deuser" },
+    { name = "Peter Mortimer" },
+    { name = "Robin-Nico Kampa" },
+    { name = "Anna Bößendörfer" },
+    { name = "Mirko Mählisch" },
+    { name = "Martin Werner" },
+    { name = "Norbert Oswald" },
+]
+keywords = ["cross-view localization", "geo-localization", "off-road", "lidar", "benchmark", "dataset"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+]
+# The core (metadata, dataset, evaluation) only needs numpy/pandas/pillow so it
+# works in any environment, including the separate baseline environments.
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+torch = ["torch>=2.2"]
+# Our multimodal baseline. The LiDAR branch additionally needs Utonia + spconv,
+# see docs/MODEL.md for the installation.
+model = ["torch>=2.2", "timm>=1.0.20", "pyyaml>=6.0", "tqdm>=4.66"]
+viz = ["matplotlib>=3.8"]
+dev = ["pytest>=8.0", "ruff>=0.4", "matplotlib>=3.8"]
+
+[project.scripts]
+gooseloc-eval = "gooseloc.eval.cli:main"
+gooseloc-check = "gooseloc.data.check:main"
+
+[project.urls]
+Homepage = "https://github.com/GOOSELoc/GOOSELoc"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["gooseloc*"]
+
+[tool.setuptools.package-data]
+gooseloc = ["resources/*.csv", "resources/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "data: needs the GOOSELoc data (data/GOOSELoc or GOOSELOC_ROOT); skipped otherwise",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["baselines/*/upstream"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501", "B905"]   # zip(strict=) is noise for same-length columns

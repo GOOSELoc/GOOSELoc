@@ -1,0 +1,10 @@
+method,setting,split,seed,loc_mean_m,loc_median_m,ori_mean_deg,ori_median_deg,source
+fg2_surround,north_up,dev,0,30.4,27.76,89.56,90.29,logs/dev_eval/dev_fg2_na_4cam.log
+fg2_surround,imu_prior,dev,0,20.08,14.84,4.33,3.6,logs/dev_eval/dev_fg2_wh_4cam.log
+fg2_front,north_up,dev,0,32.52,29.47,89.69,90.84,logs/dev_eval/dev_fg2_na_front.log
+fg2_front,imu_prior,dev,0,23.32,17.38,5.05,3.6,logs/dev_eval/dev_fg2_wh_front.log
+fg2_front,north_up,test,0,37.62,35.23,92.04,93.26,logs/test_eval/fg2_na_front.log
+fg2_front,imu_prior,test,0,29.49,25.14,6.63,4.84,logs/test_eval/fg2_wh_front_n10.log
+ccvpe,north_up,dev,0,33.79,26.96,46.79,30.69,logs/ccvpe/eval_dev_best.log
+ccvpe,north_up,dev,1,33.93,25.68,34.2,10.21,logs/baseline_seeds/eval_ccvpe_s1_best_dev.log
+ccvpe,north_up,dev,2,33.18,24.34,30.7,9.06,logs/baseline_seeds/eval_ccvpe_s2_best_dev.log

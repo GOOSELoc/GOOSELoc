@@ -1,0 +1,9 @@
+# HC-Net baseline. Install the core package first, from the repository root:
+#   pip install -e .
+#   pip install -r baselines/hcnet/requirements.txt
+# Paper runs used torch 2.4, the parity check torch 2.7.1 (upstream pins
+# torch 1.13, which is not needed). scikit-image, which upstream imports for an
+# unused image writer, is replaced by a stub when missing.
+torch>=2.2
+opencv-python-headless   # imported by upstream models/utils/utils.py
+matplotlib               # imported by upstream models/utils/utils.py

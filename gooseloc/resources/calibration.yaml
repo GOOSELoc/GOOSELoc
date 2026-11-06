@@ -1,0 +1,32 @@
+# GOOSELoc sensor calibration (MuCAR-3 surround cameras + roof LiDAR).
+#
+# STATUS: preliminary. The intrinsics below are the native pinhole intrinsics
+# of the four Basler surround cameras as used by the paper's baselines (FG2,
+# Shi et al.). Two items are still to be confirmed by the GOOSE team before
+# they should be relied upon for metric 3D work:
+#   * the released images are 2448 x 1000 crops of the 2448 x 2048 sensor;
+#     the crop is assumed to be vertically centred (top offset 524 px),
+#   * camera extrinsics are not yet released; 2.0 m mounting height is an
+#     estimate (used only by the Shi et al. baseline).
+status: preliminary
+
+image:
+  native_size_wh: [2448, 2048]
+  released_size_wh: [2448, 1000]
+  released_crop_top_px: 524        # assumed centred crop: (2048 - 1000) / 2
+
+cameras:
+  # azimuth: viewing direction, degrees clockwise from the vehicle's forward axis
+  front: {azimuth_deg: 0.0,   fx: 1127.30058, fy: 1126.67571, cx: 1222.59179, cy: 994.31072}
+  right: {azimuth_deg: 90.0,  fx: 1127.21924, fy: 1126.03821, cx: 1257.15040, cy: 966.80746}
+  back:  {azimuth_deg: 180.0, fx: 1126.08407, fy: 1125.28735, cx: 1262.14856, cy: 964.26557}
+  left:  {azimuth_deg: 270.0, fx: 1130.75573, fy: 1129.50384, cx: 1271.58781, cy: 981.54998}
+  # Intrinsics refer to the native sensor; for the released crop use
+  # cy_released = cy - released_crop_top_px.
+  mounting_height_m_estimate: 2.0
+
+lidar:
+  sensor: Velodyne 128-beam rotating LiDAR, roof-mounted
+  frame: vehicle frame, x forward, y left, z up (metres)
+  columns: [x, y, z, intensity]
+  dtype: float32

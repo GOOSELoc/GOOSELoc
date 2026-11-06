@@ -1,0 +1,10 @@
+# Shi et al. baseline, on top of the GOOSELoc package (pip install -e ../..).
+# The paper ran Python 3.10 / torch 2.4 / torchvision 0.19; also tested with
+# Python 3.13 / torch 2.7.1 / torchvision 0.22.1 / timm 1.0.26.
+torch>=2.2
+torchvision>=0.17
+timm>=0.9          # upstream swin_transformer.py
+numpy>=1.24
+pandas>=2.0
+pillow>=10.0
+pyyaml>=6.0        # calibration.yaml

@@ -1,0 +1,10 @@
+# CCVPE baseline. Install the core package first, from the repository root:
+#   pip install -e .
+#   pip install -r baselines/ccvpe/requirements.txt
+# Paper runs and the parity check used Python 3.13 and torch 2.7.1.
+# EfficientNet is vendored by upstream; no extra package is needed for it.
+torch>=2.2
+torchvision>=0.17   # imported by upstream models.py
+matplotlib          # imported by upstream models.py
+ipython             # imported by upstream models.py
+tensorboard         # imported by upstream models.py

@@ -1,0 +1,15 @@
+# conda env create -f environment.yml && conda activate gooseloc-shi && pip install -e ../..
+name: gooseloc-shi
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - torch==2.4.*
+      - torchvision==0.19.*
+      - timm>=0.9
+      - numpy>=1.24
+      - pandas>=2.0
+      - pillow>=10.0
+      - pyyaml>=6.0

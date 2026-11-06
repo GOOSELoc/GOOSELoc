@@ -1,0 +1,35 @@
+# Environment of the FG² baseline: the versions the paper's FG² runs used
+# (Python 3.10, PyTorch 2.4.0 + CUDA 12.4, mmcv 2.1.0 with CUDA ops).
+#
+#   conda env create -f environment.yml
+#   conda activate gooseloc-fg2
+#   # FG² needs mmcv's compiled ops (mmcv.ops.MultiScaleDeformableAttention).
+#   # No mmcv 2.1.0 wheel exists for torch 2.4, so build it (~20-40 min):
+#   MMCV_WITH_OPS=1 FORCE_CUDA=1 TORCH_CUDA_ARCH_LIST="7.0" \
+#       pip install mmcv==2.1.0 --no-binary mmcv --no-build-isolation
+#   pip install -e ../..        # the gooseloc package (from baselines/fg2)
+#
+# Set TORCH_CUDA_ARCH_LIST to your GPU (the paper used V100s, "7.0").
+name: gooseloc-fg2
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu124
+      - torch==2.4.0+cu124
+      - torchvision==0.19.0+cu124
+      - numpy<2                 # mmcv 2.1 is built against numpy 1.x
+      - pillow
+      - pandas
+      - einops
+      - matplotlib              # imported by upstream models/modules.py
+      - pyyaml
+      - opencv-python
+      - addict
+      - mmengine==0.10.4
+      # build requirements of mmcv 2.1.0 (its setup.py needs pkg_resources)
+      - setuptools<70
+      - wheel
+      - ninja

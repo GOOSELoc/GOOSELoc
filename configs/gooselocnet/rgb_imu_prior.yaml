@@ -1,0 +1,23 @@
+# Ours (RGB), IMU ±10° — paper Table 3. Train with:
+#   torchrun --nproc_per_node=4 scripts/train.py --config configs/gooselocnet/rgb_imu_prior.yaml --seed 0 --out runs/rgb_imu_prior_s0
+variant: rgb
+setting: imu_prior
+model:
+  lora_rank: 8            # LoRA on the frozen Utonia encoder (LiDAR variants)
+  lidar_sectors: 8
+  heading_bins: 72
+epochs: 30
+effective_batch_size: 16
+batch_size_per_gpu: 4     # paper: 4 V100 32GB GPUs per run
+lr_proj: 1.0e-3
+lr_head: 5.0e-4
+weight_decay: 1.0e-4
+warmup_epochs: 1
+grad_clip: 5.0
+sigma_patches: 1.5         # soft Gaussian position target
+heading_sigma_deg: 10.0    # wrapped-Gaussian heading label
+lambda_heading: 0.5
+eval_every: 3
+report_checkpoint: best       # checkpoint reported in the paper (best = dev position median)
+amp: true
+num_workers: 4

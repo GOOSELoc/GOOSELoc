@@ -1,0 +1,32 @@
+GOOSELoc modifications to upstream FG² (https://github.com/vita-epfl/FG2),
+pinned at commit a55d9d13eb029ab2cccf21cff31b728c78d443b2. Applied by setup.sh.
+
+This is the complete diff between that commit and the FG² tree that trained
+the released GOOSELoc checkpoints. It adds an optional `grd_query_bias`
+argument to `CVM.forward` (KITTI model); with the default `None` the forward
+pass is unchanged, and the camera-only baseline in this directory never sets
+it. Everything else (model, losses, Procrustes solver, DINOv2 backbone, config)
+is used verbatim. GOOSELoc data handling lives outside the upstream tree, in
+data.py.
+
+License: GPL-3.0, like upstream FG².
+
+diff --git a/models/model_kitti.py b/models/model_kitti.py
+index de444bc..11feef3 100755
+--- a/models/model_kitti.py
++++ b/models/model_kitti.py
+@@ -101,11 +101,13 @@ class CVM(nn.Module):
+         ### sat
+         self.sat_projector =  DeepResBlock_desc(bn, last_dim=desc_dim, in_channels=embed_dim, block_dims=block_dims, add_posEnc=add_posEnc, norm_desc=norm_desc)
+     
+-    def forward(self, grd_feature, sat_feature, camera_k):
++    def forward(self, grd_feature, sat_feature, camera_k, grd_query_bias=None):
+ 
+         bs = grd_feature.size()[0]
+ 
+         grd_query = self.grd_grid_queries.view(-1, self.embed_dim).unsqueeze(0).repeat(bs, 1, 1)
++        if grd_query_bias is not None:
++            grd_query = grd_query + grd_query_bias  # (B, n_cells, embed_dim) spatial bias from external sensors
+ 
+         grd_value = grd_feature.permute(0,2,3,1).view(bs, -1, self.embed_dim).contiguous()
+ 
